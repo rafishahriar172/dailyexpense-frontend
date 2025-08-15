@@ -21,8 +21,9 @@ export async function middleware(req: any) {
 
   // If no token, redirect to login
   if (!token) {
-    const url = req.nextUrl.clone();
+     const url = req.nextUrl.clone();
     url.pathname = "/auth/login";
+    url.searchParams.set("returnUrl", pathname);
     return NextResponse.redirect(url);
   }
 
