@@ -139,7 +139,7 @@ export default function RegisterPage() {
 
           <div className="mt-6 grid grid-cols-1 gap-3">
             <button
-                          onClick={() => signIn("google", { callbackUrl: "/" })}
+                          onClick={() => signIn("google", { callbackUrl: '/dashboard' })}
                           className="w-full inline-flex justify-center py-3 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
                         >
                           <FcGoogle size={20} className="mr-2" />
