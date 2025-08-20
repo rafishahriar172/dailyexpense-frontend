@@ -1,16 +1,97 @@
-import axios from "axios";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import axios, { AxiosResponse } from "axios";
 import { getAccessToken } from "./token";
+import { config } from "process";
 
 export const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: process.env.NEXTAUTH_URL,
   withCredentials: true,
 });
 
 // Dynamically inject token for every request
 api.interceptors.request.use(async (config) => {
   const token = await getAccessToken();
+
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    config.headers.Authorization = `Bearer ${token}`;   
   }
+  
+  
   return config;
+}, (error) => {
+  return Promise.reject(error);
 });
+
+// Handle responses
+api.interceptors.response.use(
+  (response:AxiosResponse) => response,
+  (error) => {
+    if (error.code === 'ECONNABORTED') {
+      console.error('Request timeout');
+      return Promise.reject(new Error('Request timeout. Please try again.'));
+    }
+    
+    if (!error.response) {
+      console.error('Network error');
+      return Promise.reject(new Error('Network error. Please check your connection.'));
+    }
+    
+    const status = error.response.status;
+    
+    switch (status) {
+      case 401:
+        console.error('Unauthorized access');       
+        break;
+      case 403:
+        console.error('Forbidden');
+        return Promise.reject(new Error('You do not have permission to access this resource.'));
+      case 404:
+        console.error('Resource not found');
+        return Promise.reject(new Error('The requested resource was not found.'));
+      case 500:
+        console.error('Server error');
+        return Promise.reject(new Error('Server error. Please try again later.'));
+      default:
+        console.error('Unexpected error', error.response.data);
+    }
+    
+    return Promise.reject(error);
+  }
+);
+
+const apiRequest = async <T>(request: Promise<AxiosResponse<T>>): Promise<T> => {
+  try {
+    const response = await request;
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || error.message);
+    }
+    throw error;
+  }
+};
+
+// Transactions API
+export const transactionsAPI = {
+  getAll: (config?: any) => apiRequest(api.get('/api/transactions/getAll', config)),
+  getStatistics: (config?: any) => apiRequest(api.get('/api/transactions/getStatistics', config)),
+  getById: (id: string, config?: any) => apiRequest(api.get(`/api/transactions/getById/${id}`, config)),
+};
+
+// Accounts API
+export const accountsAPI = {
+  getAll: (config?: any) => apiRequest(api.get('/api/accounts/all', config)),
+  getSummary: (config?: any) => apiRequest(api.get('/api/accounts/summary', config)),
+  getById: (id: string, config?: any) => apiRequest(api.get(`/api/accounts/getById/${id}`, config)),
+};
+
+// Budgets API
+export const budgetsAPI = {
+  getAll: (config?: any) => apiRequest(api.get('/api/budgets/all', config)),
+  getSummary: (config?: any) => apiRequest(api.get('/api/budgets/summary', config)),
+  getAlerts: (config?: any) => apiRequest(api.get('/api/budgets/alerts', config)),
+  getById: (id: string, config?: any) => apiRequest(api.get(`/api/budgets/getById/${id}`, config)),
+};
+
+

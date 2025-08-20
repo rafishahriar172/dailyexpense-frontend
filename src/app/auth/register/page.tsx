@@ -18,10 +18,10 @@ type RegisterFormData = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {
   const router = useRouter();
-  const { 
-    register, 
-    handleSubmit, 
-    formState: { errors, isSubmitting } 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting }
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema)
   });
@@ -64,6 +64,38 @@ export default function RegisterPage() {
               />
               {errors.username && (
                 <p className="mt-1 text-sm text-red-600">{errors.username.message}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="firstname" className="block text-sm font-medium text-gray-700 mb-1">
+                First Name
+              </label>
+              <input
+                id="firstname"
+                {...register("firstName")}
+                autoComplete="given-name"
+                className={`appearance-none relative block w-full px-3 py-3 border ${errors.firstName ? 'border-red-300' : 'border-gray-300'} placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-2 ${errors.firstName ? 'focus:ring-red-500' : 'focus:ring-blue-500'} focus:border-transparent sm:text-sm`}
+                placeholder="John"
+              />
+              {errors.firstName && (
+                <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="lastname" className="block text-sm font-medium text-gray-700 mb-1">
+                Last Name
+              </label>
+              <input
+                id="lastname"
+                {...register("lastName")}
+                autoComplete="family-name"
+                className={`appearance-none relative block w-full px-3 py-3 border ${errors.lastName ? 'border-red-300' : 'border-gray-300'} placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-2 ${errors.lastName ? 'focus:ring-red-500' : 'focus:ring-blue-500'} focus:border-transparent sm:text-sm`}
+                placeholder="Doe"
+              />
+              {errors.lastName && (
+                <p className="mt-1 text-sm text-red-600">{errors.lastName.message}</p>
               )}
             </div>
 
@@ -139,12 +171,12 @@ export default function RegisterPage() {
 
           <div className="mt-6 grid grid-cols-1 gap-3">
             <button
-                          onClick={() => signIn("google", { callbackUrl: '/dashboard' })}
-                          className="w-full inline-flex justify-center py-3 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
-                        >
-                          <FcGoogle size={20} className="mr-2" />
-                          Google
-                        </button>
+              onClick={() => signIn("google", { callbackUrl: '/dashboard' })}
+              className="w-full inline-flex justify-center py-3 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+            >
+              <FcGoogle size={20} className="mr-2" />
+              Google
+            </button>
           </div>
         </div>
       </div>

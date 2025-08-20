@@ -8,7 +8,7 @@ export async function getAccessToken() {
   let token = Cookies.get("access_token");
   if (!token) {
     const session = await getSession();
-    token = session?.backendAccessToken || "";
+    token = session?.accessToken  || "";
   }
   return token;
 }

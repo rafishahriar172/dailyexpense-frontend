@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -10,7 +11,7 @@ import { loginUser } from "@/lib/auth";
 import { toast } from "sonner";
 import Cookies from "js-cookie";
 import { useRouter, useSearchParams } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { signIn,useSession } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
@@ -22,6 +23,7 @@ export default function LoginPage() {
   const searchParams = useSearchParams();
   const returnUrl = searchParams?.get('returnUrl') || '/dashboard';
   const error = searchParams?.get('error');
+  const { data: session } = useSession()
 
   const { 
     register, 
@@ -34,7 +36,11 @@ export default function LoginPage() {
   const mutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      Cookies.set("access_token", data.accessToken);
+      if(session){        
+        if (session.accessToken) {
+          Cookies.set("access_token", session.accessToken);
+        }
+      }
       toast.success("Logged in successfully");
       router.push(returnUrl);
     },

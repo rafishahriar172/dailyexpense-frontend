@@ -7,6 +7,8 @@ export type LoginData = {
 
 export type RegisterData = {
   username: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
 };

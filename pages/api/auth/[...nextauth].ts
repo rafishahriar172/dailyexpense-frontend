@@ -38,7 +38,6 @@ export default NextAuth({
               password: credentials?.password,
             }
           );
-
           if (res.data?.accessToken) {
             return {
               ...res.data.user,
