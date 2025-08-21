@@ -15,6 +15,7 @@ import { signIn,useSession } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
+import { useEffect } from "react";
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
@@ -48,6 +49,10 @@ export default function LoginPage() {
       toast.error(error.response?.data?.message || "Login failed");
     }
   });
+
+  useEffect(() => {
+    document.title = "Login - Daily Expense";
+  }, []);
 
   const onSubmit = (values: LoginFormData) => mutation.mutate(values);
 

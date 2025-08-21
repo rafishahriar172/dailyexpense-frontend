@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { Loader2 } from "lucide-react";
+import { useEffect } from "react";
 
 type RegisterFormData = z.infer<typeof registerSchema>;
 
@@ -36,6 +37,10 @@ export default function RegisterPage() {
       toast.error(error.response?.data?.message || "Registration failed. Please try again.");
     }
   });
+
+  useEffect(() => {
+    document.title = "Register - Daily Expense";
+  }, []);
 
   const onSubmit = (values: RegisterFormData) => mutation.mutate(values);
 

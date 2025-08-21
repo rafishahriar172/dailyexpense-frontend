@@ -7,6 +7,7 @@ import { ArrowUpCircle, ArrowDownCircle, Wallet, Loader2, RefreshCw } from "luci
 import { useDashboardData } from "@/hooks/userDashboardData";
 import { Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react";
 import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 const COLORS = ["#4f46e5", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4", "#f97316", "#84cc16"]; // Extended color palette
 
@@ -52,6 +53,10 @@ export default function Dashboard() {
   const handleRefresh = () => {
     refetch();
   };
+
+  useEffect(() => {
+    document.title = "Dashboard - Daily Expense";
+  }, []);
 
   if (loading) {
     return (

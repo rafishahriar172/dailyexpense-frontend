@@ -23,6 +23,7 @@ const ConfirmEmail = () => {
   const token = searchParams?.get('token');
 
   useEffect(() => {
+    document.title = "Confirm Email - Daily Expense";
     if (!token) {
       setStatus('error');
       setMessage('No confirmation token provided in the URL.');
