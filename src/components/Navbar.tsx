@@ -27,7 +27,6 @@ const Navbar = () => {
     status: 'loading' | 'authenticated' | 'unauthenticated';
   };
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-console.log(session?.user);
   const handleLogout = async () => {
     if (!session?.refreshToken) {
       // If no refresh token, just sign out from NextAuth
@@ -115,6 +114,22 @@ console.log(session?.user);
                     {session.user?.name || session.user?.email}
                   </span>
                 </div>
+
+                {/* Dashboard Link (optional) */}
+                <Link
+                  href="/expenses/account"
+                  className="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Accounts
+                </Link>
+
+                {/* Dashboard Link (optional) */}
+                <Link
+                  href="/expenses/transaction"
+                  className="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Transaction
+                </Link>
 
                 {/* Dashboard Link (optional) */}
                 <Link

@@ -77,6 +77,10 @@ export const transactionsAPI = {
   getAll: (config?: any) => apiRequest(api.get('/api/transactions/getAll', config)),
   getStatistics: (config?: any) => apiRequest(api.get('/api/transactions/getStatistics', config)),
   getById: (id: string, config?: any) => apiRequest(api.get(`/api/transactions/getById/${id}`, config)),
+  create: (data: any, config?: any) => apiRequest(api.post('/api/transactions/create', data, config)),
+  update: (id: string, data: any, config?: any) => apiRequest(api.put(`/api/transactions/update/${id}`, data, config)),
+  delete: (id: string, config?: any) => apiRequest(api.delete(`/api/transactions/delete/${id}`, config)),
+  createTransfer: (data: any, config?: any) => apiRequest(api.post('/api/transactions/transfer', data, config)),
 };
 
 // Accounts API
@@ -84,6 +88,10 @@ export const accountsAPI = {
   getAll: (config?: any) => apiRequest(api.get('/api/accounts/all', config)),
   getSummary: (config?: any) => apiRequest(api.get('/api/accounts/summary', config)),
   getById: (id: string, config?: any) => apiRequest(api.get(`/api/accounts/getById/${id}`, config)),
+
+  create: (data: any, config?: any) => apiRequest(api.post('/api/accounts/create', data, config)),
+  update: (id: string, data: any, config?: any) => apiRequest(api.put(`/api/accounts/update/${id}`, data, config)),
+  delete: (id: string, config?: any) => apiRequest(api.delete(`/api/accounts/delete/${id}`, config)),
 };
 
 // Budgets API
