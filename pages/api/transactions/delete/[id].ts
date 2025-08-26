@@ -9,7 +9,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     });
 
     api
-      .delete(`/transaction/${id}`, {
+      .delete(`/transactions/${id}`, {
         headers: {
           Authorization: req.headers.authorization, // ✅ forward token
         },
@@ -18,7 +18,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         res.status(200).json({ success: true, data: response.data });
       })
       .catch((error) => {
-        console.error("Error updating transaction:", error);
+        console.error("Error updating transaction:", error.response);
         res.status(error.response?.status || 500).json({
           success: false,
           message:

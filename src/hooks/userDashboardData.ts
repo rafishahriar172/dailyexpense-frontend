@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // hooks/useDashboardData.ts
 import { useState, useEffect, useCallback } from 'react';
 import { transactionsAPI, accountsAPI, budgetsAPI } from '@/lib/api';
 import axios from 'axios';
+import { stat } from 'fs';
 
 export interface DashboardData {
   balances: {
@@ -46,31 +48,35 @@ export function useDashboardData() {
         budgetsAPI.getSummary({ cancelToken: source.token }),
       ]);
 
+      
       // Helper function to safely extract data
       const extractData = (response: any, fallback: any = {}) => {
         if (response?.success) return response.data || fallback;
         return response || fallback;
       };
 
-      const transactions = extractData(transactionsResponse, []);
-      const statistics = extractData(statisticsResponse, {});
-      const accountsSummary = extractData(accountsSummaryResponse, {});
-      const budgetsSummary = extractData(budgetsSummaryResponse, {});
-
+      const transactions = extractData(transactionsResponse.data.data, []);
+      const statistics = extractData(statisticsResponse.data, {});
+      const accountsSummary = extractData(accountsSummaryResponse.data, {});
+      const budgetsSummary = extractData(budgetsSummaryResponse.data, {});      
       // Ensure transactions is an array
-      const transactionsArray = Array.isArray(transactions) ? transactions : [];
 
+      console.log("budgetsSummary", budgetsSummary);
+      
+      const transactionsArray = Array.isArray(transactions) ? transactions : [];
+      
+      console.log(statistics);
       const processedData: DashboardData = {
         balances: {
           total: parseFloat(accountsSummary.totalBalance) || 0,
-          income: statistics.incomeTotal || 0,
-          expenses: statistics.expenseTotal || 0,
-          budgetRemaining: budgetsSummary.remainingTotal || 0,
+          income: statistics.totalIncome || 0,
+          expenses: statistics.totalExpense || 0,
+          budgetRemaining: budgetsSummary.remainingBudget || 0,
         },
         spendingByCategory:
-          statistics.categorySpending?.map((item: any) => ({
+          statistics.categoryBreakdown?.map((item: any) => ({
             name: item.category,
-            value: item.amount,
+            value: parseFloat(item._sum.amount),
           })) || [],
         cashflowTrend:
           statistics.monthlyTrend?.map((item: any) => ({
@@ -87,6 +93,7 @@ export function useDashboardData() {
         })),
       };
 
+      
       setData(processedData);
     } catch (err) {
       console.error('Error fetching dashboard data:', err);

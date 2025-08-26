@@ -146,9 +146,7 @@ const TransactionsPage = () => {
         transactionsAPI.getStatistics()
       ]);
 
-      console.log('Fetched transactions:', transactionsData);
-      console.log('Fetched accounts:', accountsData);
-      console.log('Fetched stats:', statsData);
+      
       setTransactions(transactionsData.data.data);
       setAccounts(accountsData.data);
       setStats(statsData.data);
@@ -166,7 +164,7 @@ const TransactionsPage = () => {
         Object.entries(filters).filter(([_, value]) => value !== '')
       );
       const transactionsData = await transactionsAPI.getAll(params);
-      setTransactions(transactionsData);
+      setTransactions(transactionsData.data.data);
     } catch (err) {
       setError('Failed to fetch filtered transactions');
     }
@@ -230,6 +228,7 @@ const TransactionsPage = () => {
 
   const handleTransferSubmit = async () => {
     try {
+      console.log('Submitting transfer with data:', transferData);
       await transactionsAPI.createTransfer(transferData);
       await fetchData();
       resetTransferForm();
@@ -294,7 +293,7 @@ const TransactionsPage = () => {
   };
 
   const formatCurrency = (amount: string) => {
-    console.log('Formatting amount:', amount);
+    
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD'
@@ -431,7 +430,7 @@ const TransactionsPage = () => {
                 name="type"
                 value={filters.type}
                 onChange={handleFilterChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">All Types</option>
                 {transactionTypes.map(type => (
@@ -446,7 +445,7 @@ const TransactionsPage = () => {
                 name="accountId"
                 value={filters.accountId}
                 onChange={handleFilterChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">All Accounts</option>
                 {accounts.map(account => (
@@ -462,7 +461,7 @@ const TransactionsPage = () => {
                 name="dateFrom"
                 value={filters.dateFrom}
                 onChange={handleFilterChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
@@ -473,7 +472,7 @@ const TransactionsPage = () => {
                 name="dateTo"
                 value={filters.dateTo}
                 onChange={handleFilterChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
@@ -487,7 +486,7 @@ const TransactionsPage = () => {
                   value={filters.search}
                   onChange={handleFilterChange}
                   placeholder="Search transactions..."
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 text-gray-900 placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             </div>
@@ -625,7 +624,7 @@ const TransactionsPage = () => {
         {(showCreateModal || showEditModal) && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg p-6 w-full max-w-md max-h-screen overflow-y-auto">
-              <h3 className="text-lg font-semibold mb-4">
+              <h3 className="text-lg text-gray-900 font-semibold mb-4">
                 {selectedTransaction ? 'Edit Transaction' : 'Create New Transaction'}
               </h3>
 
@@ -636,7 +635,7 @@ const TransactionsPage = () => {
                     name="accountId"
                     value={formData.accountId}
                     onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   >
                     <option value="">Select an account</option>
@@ -652,7 +651,7 @@ const TransactionsPage = () => {
                     name="type"
                     value={formData.type}
                     onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     {transactionTypes.filter(t => t.value !== 'TRANSFER').map(type => (
                       <option key={type.value} value={type.value}>{type.label}</option>
@@ -666,7 +665,7 @@ const TransactionsPage = () => {
                     name="category"
                     value={formData.category}
                     onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   >
                     <option value="">Select a category</option>
@@ -686,7 +685,7 @@ const TransactionsPage = () => {
                     value={formData.amount}
                     onChange={handleInputChange}
                     step="0.01"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   />
                 </div>
@@ -698,7 +697,7 @@ const TransactionsPage = () => {
                     name="transactionDate"
                     value={formData.transactionDate}
                     onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -709,7 +708,7 @@ const TransactionsPage = () => {
                     name="description"
                     value={formData.description}
                     onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -720,7 +719,7 @@ const TransactionsPage = () => {
                     value={formData.notes}
                     onChange={handleInputChange}
                     rows={2}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -733,7 +732,7 @@ const TransactionsPage = () => {
                     value={tagsInput}
                     onChange={handleTagsChange}
                     placeholder="groceries, food, weekly"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 text-gray-900 placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>
@@ -764,7 +763,7 @@ const TransactionsPage = () => {
         {showTransferModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg p-6 w-full max-w-md">
-              <h3 className="text-lg font-semibold mb-4">Create Transfer</h3>
+              <h3 className="text-lg text-gray-900 font-semibold mb-4">Create Transfer</h3>
 
               <div className="space-y-4">
                 <div>
@@ -773,7 +772,7 @@ const TransactionsPage = () => {
                     name="fromAccountId"
                     value={transferData.fromAccountId}
                     onChange={handleTransferInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   >
                     <option value="">Select source account</option>
@@ -789,7 +788,7 @@ const TransactionsPage = () => {
                     name="toAccountId"
                     value={transferData.toAccountId}
                     onChange={handleTransferInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   >
                     <option value="">Select destination account</option>
@@ -807,7 +806,7 @@ const TransactionsPage = () => {
                     value={transferData.amount}
                     onChange={handleTransferInputChange}
                     step="0.01"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   />
                 </div>
@@ -819,7 +818,7 @@ const TransactionsPage = () => {
                     name="transactionDate"
                     value={transferData.transactionDate}
                     onChange={handleTransferInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -831,7 +830,7 @@ const TransactionsPage = () => {
                     value={transferData.description}
                     onChange={handleTransferInputChange}
                     placeholder="Transfer description"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 text-gray-900 placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -844,7 +843,7 @@ const TransactionsPage = () => {
                       value={transferData.exchangeRate}
                       onChange={handleTransferInputChange}
                       step="0.000001"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
 
@@ -856,7 +855,7 @@ const TransactionsPage = () => {
                       value={transferData.fees}
                       onChange={handleTransferInputChange}
                       step="0.01"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                 </div>

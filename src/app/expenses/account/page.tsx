@@ -105,7 +105,7 @@ const AccountsPage = () => {
 
     const handleSubmit = async () => {
         try {
-            if (selectedAccount) {
+            if (selectedAccount) {                
                 // Update existing account
                 await accountsAPI.update(selectedAccount.id, formData);
             } else {
@@ -404,7 +404,7 @@ const AccountsPage = () => {
                 {(showCreateModal || showEditModal) && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                         <div className="bg-white rounded-lg p-6 w-full max-w-md">
-                            <h3 className="text-lg font-semibold mb-4">
+                            <h3 className="text-lg text-gray-700 font-semibold mb-4">
                                 {selectedAccount ? 'Edit Account' : 'Create New Account'}
                             </h3>
 
@@ -418,7 +418,7 @@ const AccountsPage = () => {
                                         name="name"
                                         value={formData.name}
                                         onChange={handleInputChange}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         required
                                     />
                                 </div>
@@ -431,7 +431,7 @@ const AccountsPage = () => {
                                         name="type"
                                         value={formData.type}
                                         onChange={handleInputChange}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     >
                                         {accountTypes.map(type => (
                                             <option key={type.value} value={type.value}>
@@ -451,7 +451,7 @@ const AccountsPage = () => {
                                         value={formData.initialBalance}
                                         onChange={handleInputChange}
                                         step="0.01"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         required
                                     />
                                 </div>
@@ -464,7 +464,7 @@ const AccountsPage = () => {
                                         name="currency"
                                         value={formData.currency}
                                         onChange={handleInputChange}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     >
                                         {currencies.map(currency => (
                                             <option key={currency} value={currency}>
@@ -483,7 +483,7 @@ const AccountsPage = () => {
                                         value={formData.description}
                                         onChange={handleInputChange}
                                         rows={3}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     />
                                 </div>
                             </div>

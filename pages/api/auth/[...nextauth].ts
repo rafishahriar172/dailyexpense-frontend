@@ -17,7 +17,22 @@ declare module "next-auth" {
   interface Session {
     accessToken?: string;
     refreshToken?: string;
-    user?: User;
+    user: {
+      id?: string;
+      email?: string;
+      name?: string;
+      image?: string;
+    };
+  }
+  interface JWT {
+    accessToken?: string;
+    refreshToken?: string;
+    user?: {
+      id?: string;
+      email?: string;
+      name?: string;
+      image?: string;
+    };
   }
 }
 
@@ -38,9 +53,13 @@ export default NextAuth({
               password: credentials?.password,
             }
           );
+          
           if (res.data?.accessToken) {
             return {
-              ...res.data.user,
+              id: res.data.user.id,
+              email: res.data.user.email,
+              name: res.data.user.name,
+              image: res.data.user.image,
               accessToken: res.data.accessToken,
               refreshToken: res.data.refreshToken,
             };
@@ -100,9 +119,13 @@ export default NextAuth({
           );
 
           if (response.data?.accessToken) {
+            // Update user object with backend response
             user.accessToken = response.data.accessToken;
             user.refreshToken = response.data.refreshToken;
             user.id = response.data.user.id;
+            user.email = response.data.user.email;
+            user.name = response.data.user.name;
+            user.image = response.data.user.image || googleProfile.picture;
             return true;
           }
           return false;
@@ -114,8 +137,8 @@ export default NextAuth({
       return true;
     },
 
-    async jwt({ token, user, account }) {
-      // Initial sign in
+    async jwt({ token, user, account, trigger }) {
+      // Handle sign in
       if (user) {
         token.accessToken = user.accessToken;
         token.refreshToken = user.refreshToken;
@@ -126,15 +149,42 @@ export default NextAuth({
           image: user.image,
         };
       }
+
+      // Handle session update
+      if (trigger === "update") {
+        // You can update token here if needed
+      }
+
       return token;
     },
 
     async session({ session, token }) {
-      session.accessToken = token.accessToken as string | undefined;
-      session.refreshToken = token.refreshToken as string | undefined;
-      session.user = token.user as typeof session.user;
+      // Send properties to the client
+      if (token && session.user) {
+        session.accessToken = token.accessToken as string | undefined;
+        session.refreshToken = token.refreshToken as string | undefined;
+        session.user = {
+          ...session.user,
+          id: token.user?.id,
+          email: token.user?.email,
+          name: token.user?.name,
+          image: token.user?.image,
+        };
+      }
       return session;
     },
+  },
+
+  events: {
+    async signOut({ token }) {
+      // Clear any server-side session data if needed
+      console.log("User signed out:", token?.user?.email);
+    },
+  },
+
+  session: {
+    strategy: "jwt",
+    maxAge: 24 * 60 * 60, // 24 hours
   },
 
   secret: process.env.NEXTAUTH_SECRET,

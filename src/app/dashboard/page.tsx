@@ -105,7 +105,7 @@ export default function Dashboard() {
   }
 
   const { balances, spendingByCategory, cashflowTrend, recentTransactions } = data;
-
+  
   // Format the cashflow trend data for the chart
   const formattedCashflowTrend = cashflowTrend.map((item: { month: string; }) => ({
     ...item,

@@ -15,6 +15,7 @@ export type RegisterData = {
 
 export const loginUser = async (data: LoginData) => {
   const res = await api.post("/auth/login", data);
+  console.log(res);
   return res.data;
 };
 

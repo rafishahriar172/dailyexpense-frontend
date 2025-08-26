@@ -65,7 +65,7 @@ const Navbar = () => {
           <div className="flex justify-between items-center h-16">
             <div className="flex-shrink-0">
               <Link href="/" className="text-xl font-bold text-gray-800">
-                <Image src="/DailyExpense.svg" alt="Logo" width={40} height={40} className="inline-block mr-2" />
+                <Image src="/logo.png" alt="Logo" width={40} height={40} className="inline-block mr-2" />
                 Daily Expense
               </Link>
             </div>
@@ -117,13 +117,21 @@ const Navbar = () => {
 
                 {/* Dashboard Link (optional) */}
                 <Link
+                  href="/dashboard"
+                  className="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Dashboard
+                </Link>
+
+                {/* Accounts Link (optional) */}
+                <Link
                   href="/expenses/account"
                   className="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium transition-colors"
                 >
                   Accounts
                 </Link>
 
-                {/* Dashboard Link (optional) */}
+                {/* Transfer Link (optional) */}
                 <Link
                   href="/expenses/transaction"
                   className="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium transition-colors"
@@ -131,12 +139,12 @@ const Navbar = () => {
                   Transaction
                 </Link>
 
-                {/* Dashboard Link (optional) */}
+                {/* Budget Link (optional) */}
                 <Link
-                  href="/dashboard"
+                  href="/expenses/budget"
                   className="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium transition-colors"
                 >
-                  Dashboard
+                  Budget
                 </Link>
 
                 {/* Logout Button */}

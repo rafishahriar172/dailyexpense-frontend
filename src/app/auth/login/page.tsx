@@ -1,60 +1,132 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/lib/validation";
 import { z } from "zod";
-import { useMutation } from "@tanstack/react-query";
-import { loginUser } from "@/lib/auth";
 import { toast } from "sonner";
 import Cookies from "js-cookie";
 import { useRouter, useSearchParams } from "next/navigation";
-import { signIn,useSession } from "next-auth/react";
+import { signIn, useSession, signOut } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const searchParams = useSearchParams();
   const returnUrl = searchParams?.get('returnUrl') || '/dashboard';
   const error = searchParams?.get('error');
-  const { data: session } = useSession()
+  const { data: session, status } = useSession();
 
-  const { 
-    register, 
-    handleSubmit, 
-    formState: { errors, isSubmitting } 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema)
-  });
-
-  const mutation = useMutation({
-    mutationFn: loginUser,
-    onSuccess: (data) => {
-      if(session){        
-        if (session.accessToken) {
-          Cookies.set("access_token", session.accessToken);
-        }
-      }
-      toast.success("Logged in successfully");
-      router.push(returnUrl);
-    },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.message || "Login failed");
-    }
   });
 
   useEffect(() => {
     document.title = "Login - Daily Expense";
   }, []);
 
-  const onSubmit = (values: LoginFormData) => mutation.mutate(values);
+  // Handle session changes and token storage
+  useEffect(() => {
+    if (status === 'authenticated' && session?.accessToken) {
+      // Clear any existing tokens first
+      Cookies.remove("access_token");
+      Cookies.remove("refresh_token");
+      
+      // Set new tokens
+      Cookies.set("access_token", session.accessToken);
+      
+      if (session.refreshToken) {
+        Cookies.set("refresh_token", session.refreshToken);
+      }
+      
+      console.log("Session updated with tokens:", session);
+      
+      // Redirect after tokens are set
+      toast.success("Logged in successfully");
+      router.push(returnUrl);
+    }
+  }, [session, status, router, returnUrl]);
+
+  const clearAuthState = async () => {
+    // Clear cookies
+    Cookies.remove("access_token");
+    Cookies.remove("refresh_token");
+    
+    // Sign out from NextAuth to clear session
+    await signOut({ redirect: false });
+  };
+
+  const onSubmit = async (values: LoginFormData) => {
+    setIsSubmitting(true);
+    
+    try {
+      // Clear any existing auth state
+      await clearAuthState();
+      
+      const result = await signIn('credentials', {
+        email: values.email,
+        password: values.password,
+        redirect: false,
+      });
+
+      console.log("SignIn result:", result);
+
+      if (result?.error) {
+        toast.error("Login failed: Invalid credentials");
+      } else if (result?.ok) {
+        // Don't show success toast or redirect here
+        // Let the useEffect handle it when session is updated
+        console.log("Credentials login successful, waiting for session update");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error("An error occurred during login");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setIsGoogleLoading(true);
+    
+    try {
+      // Clear any existing auth state
+      await clearAuthState();
+      
+      await signIn("google", { 
+        callbackUrl: returnUrl,
+        redirect: false 
+      });
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+      toast.error("Google sign-in failed");
+    } finally {
+      setIsGoogleLoading(false);
+    }
+  };
+
+  // Show loading state if we're authenticated and redirecting
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <Loader2 className="animate-spin h-8 w-8 mx-auto mb-4" />
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -144,7 +216,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? (
                 <Loader2 className="animate-spin h-5 w-5" />
@@ -167,10 +239,15 @@ export default function LoginPage() {
 
           <div className="mt-6 grid grid-cols-1 gap-3">
             <button
-              onClick={() => signIn("google", { callbackUrl: '/dashboard' })}
-              className="w-full inline-flex justify-center py-3 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+              onClick={handleGoogleSignIn}
+              disabled={isGoogleLoading}
+              className="w-full inline-flex justify-center py-3 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <FcGoogle size={20} className="mr-2" />
+              {isGoogleLoading ? (
+                <Loader2 className="animate-spin h-5 w-5 mr-2" />
+              ) : (
+                <FcGoogle size={20} className="mr-2" />
+              )}
               Google
             </button>
           </div>

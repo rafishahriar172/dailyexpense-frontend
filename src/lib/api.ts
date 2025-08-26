@@ -90,7 +90,7 @@ export const accountsAPI = {
   getById: (id: string, config?: any) => apiRequest(api.get(`/api/accounts/getById/${id}`, config)),
 
   create: (data: any, config?: any) => apiRequest(api.post('/api/accounts/create', data, config)),
-  update: (id: string, data: any, config?: any) => apiRequest(api.put(`/api/accounts/update/${id}`, data, config)),
+  update: (id: string, data: any, config?: any) => apiRequest(api.patch(`/api/accounts/update/${id}`, data, config)),
   delete: (id: string, config?: any) => apiRequest(api.delete(`/api/accounts/delete/${id}`, config)),
 };
 
@@ -100,6 +100,9 @@ export const budgetsAPI = {
   getSummary: (config?: any) => apiRequest(api.get('/api/budgets/summary', config)),
   getAlerts: (config?: any) => apiRequest(api.get('/api/budgets/alerts', config)),
   getById: (id: string, config?: any) => apiRequest(api.get(`/api/budgets/getById/${id}`, config)),
+  create: (data: any, config?: any) => apiRequest(api.post('/api/budgets/create', data, config)),
+  update: (id: string, data: any, config?: any) => apiRequest(api.patch(`/api/budgets/update/${id}`, data, config)),
+  delete: (id: string, config?: any) => apiRequest(api.delete(`/api/budgets/delete/${id}`, config)),
 };
 
 
