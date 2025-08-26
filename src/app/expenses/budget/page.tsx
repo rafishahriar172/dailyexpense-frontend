@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, AlertTriangle, TrendingUp, DollarSign, Calendar, Target } from 'lucide-react';
-import { budgetsAPI } from '@/lib/api';
+import { budgetsAPI } from '../../../lib/api';
 
 interface Budget {
     id: string;

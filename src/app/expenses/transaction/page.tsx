@@ -3,7 +3,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { Plus, Search, ArrowUpDown, ArrowUp, ArrowDown, Repeat, Edit3, Trash2, DollarSign } from 'lucide-react';
-import { transactionsAPI, accountsAPI } from '@/lib/api';
+import { transactionsAPI, accountsAPI } from '../../../lib/api';
 
 // Type definitions
 interface Transaction {

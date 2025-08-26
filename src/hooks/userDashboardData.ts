@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // hooks/useDashboardData.ts
 import { useState, useEffect, useCallback } from 'react';
-import { transactionsAPI, accountsAPI, budgetsAPI } from '@/lib/api';
+import { transactionsAPI, accountsAPI, budgetsAPI } from '../lib/api';
 import axios from 'axios';
 import { stat } from 'fs';
 

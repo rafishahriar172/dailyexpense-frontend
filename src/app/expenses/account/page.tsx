@@ -2,7 +2,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit3, Trash2, DollarSign, CreditCard, Wallet, TrendingUp, Eye, EyeOff } from 'lucide-react';
-import { accountsAPI } from '@/lib/api';
+import { accountsAPI } from '../../../lib/api';
 
 // Type definitions
 interface Account {
