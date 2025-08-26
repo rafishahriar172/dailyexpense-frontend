@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, Legend } from "recharts";
 import { motion } from "framer-motion";
 import { ArrowUpCircle, ArrowDownCircle, Wallet, Loader2, RefreshCw } from "lucide-react";
-import { useDashboardData } from "@/hooks/userDashboardData";
+import { useDashboardData } from "../../hooks/userDashboardData";
 import { Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";

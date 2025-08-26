@@ -3,11 +3,11 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerSchema } from "@/lib/validation";
+import { registerSchema } from "../../../lib/validation";
 import { z } from "zod";
 import { signIn } from "next-auth/react";
 import { useMutation } from "@tanstack/react-query";
-import { registerUser } from "@/lib/auth";
+import { registerUser } from "../../../lib/auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Link from "next/link";

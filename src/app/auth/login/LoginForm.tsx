@@ -3,7 +3,7 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "@/lib/validation";
+import { loginSchema } from "../../../lib/validation";
 import { z } from "zod";
 import { toast } from "sonner";
 import Cookies from "js-cookie";
