@@ -20,6 +20,6 @@ export const loginUser = async (data: LoginData) => {
 };
 
 export const registerUser = async (data: RegisterData) => {
-  const res = await api.post("/auth/register", data);
+  const res = await api.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, data);
   return res.data;
 };
