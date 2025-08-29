@@ -38,22 +38,40 @@ declare module "next-auth" {
 
 export default NextAuth({
   providers: [
-    CredentialsProvider({
+   CredentialsProvider({
       name: "Credentials",
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
+        username: { label: "Username", type: "text" },
+        firstName: { label: "First Name", type: "text" },
+        lastName: { label: "Last Name", type: "text" },
+        isRegistration: { label: "Is Registration", type: "text" },
       },
       async authorize(credentials) {
         try {
-          const res = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-            {
-              email: credentials?.email,
-              password: credentials?.password,
-            }
-          );
+          const endpoint = credentials?.isRegistration === "true" 
+            ? "/auth/register" 
+            : "/auth/login";
           
+          const requestData = credentials?.isRegistration === "true"
+            ? {
+                username: credentials.username,
+                firstName: credentials.firstName,
+                lastName: credentials.lastName,
+                email: credentials.email,
+                password: credentials.password,
+              }
+            : {
+                email: credentials?.email,
+                password: credentials?.password,
+              };
+
+          const res = await axios.post(
+            `${process.env.NEXT_PUBLIC_API_URL}${endpoint}`,
+            requestData
+          );
+
           if (res.data?.accessToken) {
             return {
               id: res.data.user.id,
@@ -66,7 +84,7 @@ export default NextAuth({
           }
           return null;
         } catch (err) {
-          console.error("Login error", err);
+          console.error("Auth error", err);
           return null;
         }
       },
