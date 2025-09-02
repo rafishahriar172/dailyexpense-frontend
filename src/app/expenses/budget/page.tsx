@@ -182,12 +182,12 @@ const BudgetPage = () => {
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
-                <div className="mb-8">
-                    <div className="flex justify-between items-center">
-                        <div>
-                            <h1 className="text-3xl font-bold text-gray-900">Budget Management</h1>
-                            <p className="text-gray-600 mt-2">Track and manage your spending budgets</p>
-                        </div>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8 gap-4">
+                    <div className="text-center sm:text-left">
+                        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Budget Management</h1>
+                        <p className="text-gray-600 mt-1 text-sm sm:text-base">Track and manage your spending budgets</p>
+                    </div>
+                    <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                         <button
                             onClick={() => setShowCreateModal(true)}
                             className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center gap-2"
