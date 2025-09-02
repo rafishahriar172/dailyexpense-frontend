@@ -182,16 +182,16 @@ const AccountsPage = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-50 p-6">
+            <div className="min-h-screen bg-gray-50 p-3 sm:p-4 lg:p-6">
                 <div className="max-w-7xl mx-auto">
                     <div className="animate-pulse">
-                        <div className="h-8 bg-gray-200 rounded w-1/4 mb-6"></div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div className="h-6 sm:h-8 bg-gray-200 rounded w-1/2 sm:w-1/4 mb-4 sm:mb-6"></div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-6 mb-6 sm:mb-8">
                             {[1, 2, 3].map(i => (
-                                <div key={i} className="h-32 bg-gray-200 rounded-lg"></div>
+                                <div key={i} className="h-24 sm:h-32 bg-gray-200 rounded-lg"></div>
                             ))}
                         </div>
-                        <div className="h-96 bg-gray-200 rounded-lg"></div>
+                        <div className="h-64 sm:h-96 bg-gray-200 rounded-lg"></div>
                     </div>
                 </div>
             </div>
@@ -199,77 +199,77 @@ const AccountsPage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-gray-50 p-3 sm:p-4 lg:p-6">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
-                <div className="flex justify-between items-center mb-8">
-                    <div>
-                        <h1 className="text-3xl font-bold text-gray-900">Accounts</h1>
-                        <p className="text-gray-600 mt-1">Manage your financial accounts</p>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8 gap-4">
+                    <div className="text-center sm:text-left">
+                        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Accounts</h1>
+                        <p className="text-gray-600 mt-1 text-sm sm:text-base">Manage your financial accounts</p>
                     </div>
-                    <div className="flex gap-3">
+                    <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                         <button
                             onClick={() => setShowBalances(!showBalances)}
-                            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors flex items-center gap-2"
+                            className="px-3 sm:px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
                         >
-                            {showBalances ? <EyeOff size={20} /> : <Eye size={20} />}
+                            {showBalances ? <EyeOff size={16} className="sm:w-5 sm:h-5" /> : <Eye size={16} className="sm:w-5 sm:h-5" />}
                             {showBalances ? 'Hide' : 'Show'} Balances
                         </button>
                         <button
                             onClick={() => setShowCreateModal(true)}
-                            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+                            className="px-4 sm:px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
                         >
-                            <Plus size={20} />
+                            <Plus size={16} className="sm:w-5 sm:h-5" />
                             Add Account
                         </button>
                     </div>
                 </div>
 
                 {error && (
-                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+                    <div className="bg-red-100 border border-red-400 text-red-700 px-3 sm:px-4 py-3 rounded mb-4 sm:mb-6 text-sm sm:text-base">
                         {error}
                     </div>
                 )}
 
                 {/* Summary Cards */}
                 {summary && (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        <div className="bg-white rounded-lg shadow-sm p-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
+                        <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm font-medium text-gray-600">Total Balance</p>
-                                    <p className="text-2xl font-bold text-gray-900">
+                                    <p className="text-xs sm:text-sm font-medium text-gray-600">Total Balance</p>
+                                    <p className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 break-all">
                                         {formatCurrency(summary.totalBalance)}
                                     </p>
                                 </div>
-                                <div className="p-3 bg-green-100 rounded-full">
-                                    <DollarSign className="h-6 w-6 text-green-600" />
+                                <div className="p-2 sm:p-3 bg-green-100 rounded-full flex-shrink-0">
+                                    <DollarSign className="h-4 w-4 sm:h-6 sm:w-6 text-green-600" />
                                 </div>
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-lg shadow-sm p-6">
+                        <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm font-medium text-gray-600">Active Accounts</p>
-                                    <p className="text-2xl font-bold text-gray-900">{summary.totalAccounts}</p>
+                                    <p className="text-xs sm:text-sm font-medium text-gray-600">Active Accounts</p>
+                                    <p className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">{summary.totalAccounts}</p>
                                 </div>
-                                <div className="p-3 bg-blue-100 rounded-full">
-                                    <Wallet className="h-6 w-6 text-blue-600" />
+                                <div className="p-2 sm:p-3 bg-blue-100 rounded-full flex-shrink-0">
+                                    <Wallet className="h-4 w-4 sm:h-6 sm:w-6 text-blue-600" />
                                 </div>
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-lg shadow-sm p-6">
+                        <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 sm:col-span-2 lg:col-span-1">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm font-medium text-gray-600">Credit Available</p>
-                                    <p className="text-2xl font-bold text-gray-900">
+                                    <p className="text-xs sm:text-sm font-medium text-gray-600">Credit Available</p>
+                                    <p className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 break-all">
                                         {formatCurrency(summary.creditAvailable || 0)}
                                     </p>
                                 </div>
-                                <div className="p-3 bg-purple-100 rounded-full">
-                                    <CreditCard className="h-6 w-6 text-purple-600" />
+                                <div className="p-2 sm:p-3 bg-purple-100 rounded-full flex-shrink-0">
+                                    <CreditCard className="h-4 w-4 sm:h-6 sm:w-6 text-purple-600" />
                                 </div>
                             </div>
                         </div>
@@ -278,133 +278,216 @@ const AccountsPage = () => {
 
                 {/* Accounts List */}
                 <div className="bg-white rounded-lg shadow-sm">
-                    <div className="p-6 border-b border-gray-200">
-                        <h2 className="text-lg font-semibold text-gray-900">Your Accounts</h2>
+                    <div className="p-4 sm:p-6 border-b border-gray-200">
+                        <h2 className="text-base sm:text-lg font-semibold text-gray-900">Your Accounts</h2>
                     </div>
 
                     {accounts.length === 0 ? (
-                        <div className="p-12 text-center">
-                            <Wallet className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                            <h3 className="text-lg font-medium text-gray-900 mb-2">No accounts yet</h3>
-                            <p className="text-gray-500 mb-4">Get started by creating your first account</p>
+                        <div className="p-8 sm:p-12 text-center">
+                            <Wallet className="h-8 w-8 sm:h-12 sm:w-12 text-gray-400 mx-auto mb-3 sm:mb-4" />
+                            <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-2">No accounts yet</h3>
+                            <p className="text-gray-500 mb-4 text-sm sm:text-base">Get started by creating your first account</p>
                             <button
                                 onClick={() => setShowCreateModal(true)}
-                                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                                className="px-4 sm:px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
                             >
                                 Create Account
                             </button>
                         </div>
                     ) : (
-                        <div className="overflow-x-auto">
-                            <table className="w-full">
-                                <thead className="bg-gray-50">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Account
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Type
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Balance
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Currency
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Status
-                                        </th>
-                                        <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Actions
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                    {!accounts || !Array.isArray(accounts) || accounts.length === 0 ? (
+                        <>
+                            {/* Desktop Table View */}
+                            <div className="hidden lg:block overflow-x-auto">
+                                <table className="w-full">
+                                    <thead className="bg-gray-50">
                                         <tr>
-                                            <td colSpan={6} className="px-6 py-4 text-center text-gray-500">
-                                                No accounts found
-                                            </td>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Account
+                                            </th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Type
+                                            </th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Balance
+                                            </th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Currency
+                                            </th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Status
+                                            </th>
+                                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Actions
+                                            </th>
                                         </tr>
-                                    ) : (
-                                        accounts.map((account) => {
-                                            const typeInfo = getAccountTypeInfo(account.type);
-                                            const IconComponent = typeInfo.icon;
+                                    </thead>
+                                    <tbody className="bg-white divide-y divide-gray-200">
+                                        {!accounts || !Array.isArray(accounts) || accounts.length === 0 ? (
+                                            <tr>
+                                                <td colSpan={6} className="px-6 py-4 text-center text-gray-500">
+                                                    No accounts found
+                                                </td>
+                                            </tr>
+                                        ) : (
+                                            accounts.map((account) => {
+                                                const typeInfo = getAccountTypeInfo(account.type);
+                                                const IconComponent = typeInfo.icon;
 
-                                            return (
-                                                <tr key={account.id} className="hover:bg-gray-50">
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        <div className="flex items-center">
-                                                            <div className="p-2 bg-gray-100 rounded-lg mr-3">
-                                                                <IconComponent className="h-5 w-5 text-gray-600" />
-                                                            </div>
-                                                            <div>
-                                                                <div className="text-sm font-medium text-gray-900">
-                                                                    {account.name}
+                                                return (
+                                                    <tr key={account.id} className="hover:bg-gray-50">
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            <div className="flex items-center">
+                                                                <div className="p-2 bg-gray-100 rounded-lg mr-3">
+                                                                    <IconComponent className="h-5 w-5 text-gray-600" />
                                                                 </div>
-                                                                {account.description && (
-                                                                    <div className="text-sm text-gray-500">
-                                                                        {account.description}
+                                                                <div>
+                                                                    <div className="text-sm font-medium text-gray-900">
+                                                                        {account.name}
                                                                     </div>
-                                                                )}
+                                                                    {account.description && (
+                                                                        <div className="text-sm text-gray-500">
+                                                                            {account.description}
+                                                                        </div>
+                                                                    )}
+                                                                </div>
                                                             </div>
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            <span
+                                                                className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getAccountTypeColor(account.type)}`}
+                                                            >
+                                                                {typeInfo.label}
+                                                            </span>
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            <div className="text-sm font-medium text-gray-900">
+                                                                {formatCurrency(account.balance, account.currency)}
+                                                            </div>
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            <div className="text-sm text-gray-900">{account.currency}</div>
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            <span
+                                                                className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${account.isActive
+                                                                    ? "bg-green-100 text-green-800"
+                                                                    : "bg-red-100 text-red-800"
+                                                                    }`}
+                                                            >
+                                                                {account.isActive ? "Active" : "Inactive"}
+                                                            </span>
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                            <button
+                                                                onClick={() => handleEdit(account)}
+                                                                className="text-blue-600 hover:text-blue-900 mr-3"
+                                                            >
+                                                                <Edit3 size={16} />
+                                                            </button>
+                                                            <button
+                                                                onClick={() => handleDelete(account.id)}
+                                                                className="text-red-600 hover:text-red-900"
+                                                            >
+                                                                <Trash2 size={16} />
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {/* Mobile Card View */}
+                            <div className="lg:hidden">
+                                <div className="space-y-3 sm:space-y-4 p-3 sm:p-4">
+                                    {accounts.map((account) => {
+                                        const typeInfo = getAccountTypeInfo(account.type);
+                                        const IconComponent = typeInfo.icon;
+
+                                        return (
+                                            <div key={account.id} className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors">
+                                                {/* Account Header */}
+                                                <div className="flex items-start justify-between mb-3">
+                                                    <div className="flex items-center flex-1 min-w-0">
+                                                        <div className="p-2 bg-white rounded-lg mr-3 flex-shrink-0">
+                                                            <IconComponent className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600" />
                                                         </div>
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        <span
-                                                            className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getAccountTypeColor(account.type)}`}
-                                                        >
-                                                            {typeInfo.label}
-                                                        </span>
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        <div className="text-sm font-medium text-gray-900">
-                                                            {formatCurrency(account.balance, account.currency)}
+                                                        <div className="min-w-0 flex-1">
+                                                            <div className="text-sm sm:text-base font-medium text-gray-900 truncate">
+                                                                {account.name}
+                                                            </div>
+                                                            {account.description && (
+                                                                <div className="text-xs sm:text-sm text-gray-500 truncate">
+                                                                    {account.description}
+                                                                </div>
+                                                            )}
                                                         </div>
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        <div className="text-sm text-gray-900">{account.currency}</div>
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        <span
-                                                            className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${account.isActive
-                                                                ? "bg-green-100 text-green-800"
-                                                                : "bg-red-100 text-red-800"
-                                                                }`}
-                                                        >
-                                                            {account.isActive ? "Active" : "Inactive"}
-                                                        </span>
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                    </div>
+                                                    
+                                                    {/* Action Buttons */}
+                                                    <div className="flex gap-2 flex-shrink-0 ml-2">
                                                         <button
                                                             onClick={() => handleEdit(account)}
-                                                            className="text-blue-600 hover:text-blue-900 mr-3"
+                                                            className="p-2 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded-lg transition-colors"
                                                         >
-                                                            <Edit3 size={16} />
+                                                            <Edit3 size={14} className="sm:w-4 sm:h-4" />
                                                         </button>
                                                         <button
                                                             onClick={() => handleDelete(account.id)}
-                                                            className="text-red-600 hover:text-red-900"
+                                                            className="p-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-lg transition-colors"
                                                         >
-                                                            <Trash2 size={16} />
+                                                            <Trash2 size={14} className="sm:w-4 sm:h-4" />
                                                         </button>
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })
-                                    )}
+                                                    </div>
+                                                </div>
 
-                                </tbody>
-                            </table>
-                        </div>
+                                                {/* Account Details */}
+                                                <div className="grid grid-cols-2 gap-3 text-xs sm:text-sm">
+                                                    <div>
+                                                        <span className="text-gray-500">Type</span>
+                                                        <div className="mt-1">
+                                                            <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getAccountTypeColor(account.type)}`}>
+                                                                {typeInfo.label}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-gray-500">Status</span>
+                                                        <div className="mt-1">
+                                                            <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${account.isActive ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
+                                                                {account.isActive ? "Active" : "Inactive"}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-gray-500">Balance</span>
+                                                        <div className="mt-1 font-medium text-gray-900 text-sm sm:text-base">
+                                                            {formatCurrency(account.balance, account.currency)}
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-gray-500">Currency</span>
+                                                        <div className="mt-1 font-medium text-gray-900">
+                                                            {account.currency}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        </>
                     )}
                 </div>
 
                 {/* Create/Edit Modal */}
                 {(showCreateModal || showEditModal) && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                        <div className="bg-white rounded-lg p-6 w-full max-w-md">
-                            <h3 className="text-lg text-gray-700 font-semibold mb-4">
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                        <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+                            <h3 className="text-base sm:text-lg text-gray-700 font-semibold mb-4">
                                 {selectedAccount ? 'Edit Account' : 'Create New Account'}
                             </h3>
 
@@ -418,7 +501,7 @@ const AccountsPage = () => {
                                         name="name"
                                         value={formData.name}
                                         onChange={handleInputChange}
-                                        className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                                         required
                                     />
                                 </div>
@@ -431,7 +514,7 @@ const AccountsPage = () => {
                                         name="type"
                                         value={formData.type}
                                         onChange={handleInputChange}
-                                        className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                                     >
                                         {accountTypes.map(type => (
                                             <option key={type.value} value={type.value}>
@@ -451,7 +534,7 @@ const AccountsPage = () => {
                                         value={formData.initialBalance}
                                         onChange={handleInputChange}
                                         step="0.01"
-                                        className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                                         required
                                     />
                                 </div>
@@ -464,7 +547,7 @@ const AccountsPage = () => {
                                         name="currency"
                                         value={formData.currency}
                                         onChange={handleInputChange}
-                                        className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                                     >
                                         {currencies.map(currency => (
                                             <option key={currency} value={currency}>
@@ -483,12 +566,12 @@ const AccountsPage = () => {
                                         value={formData.description}
                                         onChange={handleInputChange}
                                         rows={3}
-                                        className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base resize-none"
                                     />
                                 </div>
                             </div>
 
-                            <div className="flex justify-end gap-3 mt-6">
+                            <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 mt-6">
                                 <button
                                     type="button"
                                     onClick={() => {
@@ -496,13 +579,13 @@ const AccountsPage = () => {
                                         setShowEditModal(false);
                                         resetForm();
                                     }}
-                                    className="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300"
+                                    className="w-full sm:w-auto px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 text-sm sm:text-base order-2 sm:order-1"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={handleSubmit}
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                                    className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm sm:text-base order-1 sm:order-2"
                                 >
                                     {selectedAccount ? 'Update' : 'Create'} Account
                                 </button>

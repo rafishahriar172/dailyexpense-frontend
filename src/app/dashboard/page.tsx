@@ -29,14 +29,14 @@ const formatMonth = (monthStr: string) => {
   return months[monthStr] || monthStr;
 };
 
-// Custom tooltip with better styling
+// Custom tooltip with better styling and mobile optimization
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white p-4 border border-gray-300 rounded-lg shadow-lg">
-        <p className="text-gray-800 font-semibold mb-2">{label}</p>
+      <div className="bg-white p-2 sm:p-4 border border-gray-300 rounded-lg shadow-lg max-w-[200px] sm:max-w-none">
+        <p className="text-gray-800 font-semibold mb-1 sm:mb-2 text-xs sm:text-sm">{label}</p>
         {payload.map((entry: any, index: number) => (
-          <p key={index} className="text-sm font-medium" style={{ color: entry.color }}>
+          <p key={index} className="text-xs sm:text-sm font-medium" style={{ color: entry.color }}>
             {entry.name}: {formatCurrency(entry.value)}
           </p>
         ))}
@@ -60,23 +60,23 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center h-64 bg-gray-50">
-        <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
-        <span className="ml-2 mt-2 text-gray-600 font-medium">Loading dashboard data...</span>
+      <div className="flex flex-col items-center justify-center h-64 bg-gray-50 px-4">
+        <Loader2 className="h-6 w-6 sm:h-8 sm:w-8 animate-spin text-indigo-600" />
+        <span className="ml-2 mt-2 text-gray-600 font-medium text-sm sm:text-base text-center">Loading dashboard data...</span>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="p-6 bg-gray-50 min-h-screen">
+      <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
         <Card className="max-w-md mx-auto border-red-200 bg-red-50">
-          <CardContent className="p-6">
-            <h2 className="text-red-800 font-semibold text-lg mb-2">Error loading dashboard</h2>
-            <p className="text-red-700 mb-4">{error}</p>
+          <CardContent className="p-4 sm:p-6">
+            <h2 className="text-red-800 font-semibold text-base sm:text-lg mb-2">Error loading dashboard</h2>
+            <p className="text-red-700 mb-4 text-sm sm:text-base">{error}</p>
             <button
               onClick={handleRefresh}
-              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium"
+              className="w-full sm:w-auto px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium text-sm sm:text-base"
             >
               Try Again
             </button>
@@ -88,13 +88,13 @@ export default function Dashboard() {
 
   if (!data) {
     return (
-      <div className="p-6 bg-gray-50 min-h-screen">
+      <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
         <Card className="max-w-md mx-auto">
-          <CardContent className="p-6 text-center">
-            <p className="text-gray-600 mb-4">No data available</p>
+          <CardContent className="p-4 sm:p-6 text-center">
+            <p className="text-gray-600 mb-4 text-sm sm:text-base">No data available</p>
             <button
               onClick={handleRefresh}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium"
+              className="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium text-sm sm:text-base"
             >
               Refresh Data
             </button>
@@ -113,39 +113,41 @@ export default function Dashboard() {
   }));
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-3 sm:p-4 lg:p-6 bg-gray-50 min-h-screen">
       {/* Header with refresh button */}
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8 gap-4">
+        <div className="text-center sm:text-left">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">
             Welcome back, {session?.user?.name} 👋
           </h1>
-          <p className="text-gray-600">Here&apos;s your financial overview for today</p>
+          <p className="text-gray-600 text-sm sm:text-base">Here&apos;s your financial overview for today</p>
         </div>
         <button
           onClick={handleRefresh}
-          className="flex items-center gap-2 px-4 py-2 bg-white text-gray-700 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors shadow-sm font-medium"
+          className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-white text-gray-700 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors shadow-sm font-medium text-sm sm:text-base w-full sm:w-auto"
         >
-          <RefreshCw size={16} />
+          <RefreshCw size={14} className="sm:w-4 sm:h-4" />
           Refresh
         </button>
       </div>
 
       {/* Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
           <Card className="hover:shadow-lg transition-all duration-200 border-gray-200">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-gray-600 text-sm font-medium uppercase tracking-wide">
+            <CardHeader className="pb-2 sm:pb-3">
+              <CardTitle className="text-gray-600 text-xs sm:text-sm font-medium uppercase tracking-wide">
                 Total Balance
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold text-gray-900">{formatCurrency(balances.total)}</p>
+            <CardContent className="pt-0">
+              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 break-all">
+                {formatCurrency(balances.total)}
+              </p>
             </CardContent>
           </Card>
         </motion.div>
@@ -156,13 +158,15 @@ export default function Dashboard() {
           transition={{ delay: 0.2 }}
         >
           <Card className="hover:shadow-lg transition-all duration-200 border-green-200 bg-green-50">
-            <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-green-700 text-sm font-medium uppercase tracking-wide">
-                <ArrowUpCircle size={16} /> Income
+            <CardHeader className="pb-2 sm:pb-3">
+              <CardTitle className="flex items-center gap-1 sm:gap-2 text-green-700 text-xs sm:text-sm font-medium uppercase tracking-wide">
+                <ArrowUpCircle size={14} className="sm:w-4 sm:h-4" /> Income
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold text-green-800">{formatCurrency(balances.income)}</p>
+            <CardContent className="pt-0">
+              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-800 break-all">
+                {formatCurrency(balances.income)}
+              </p>
             </CardContent>
           </Card>
         </motion.div>
@@ -173,13 +177,15 @@ export default function Dashboard() {
           transition={{ delay: 0.3 }}
         >
           <Card className="hover:shadow-lg transition-all duration-200 border-red-200 bg-red-50">
-            <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-red-700 text-sm font-medium uppercase tracking-wide">
-                <ArrowDownCircle size={16} /> Expenses
+            <CardHeader className="pb-2 sm:pb-3">
+              <CardTitle className="flex items-center gap-1 sm:gap-2 text-red-700 text-xs sm:text-sm font-medium uppercase tracking-wide">
+                <ArrowDownCircle size={14} className="sm:w-4 sm:h-4" /> Expenses
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold text-red-800">{formatCurrency(balances.expenses)}</p>
+            <CardContent className="pt-0">
+              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-red-800 break-all">
+                {formatCurrency(balances.expenses)}
+              </p>
             </CardContent>
           </Card>
         </motion.div>
@@ -190,30 +196,32 @@ export default function Dashboard() {
           transition={{ delay: 0.4 }}
         >
           <Card className="hover:shadow-lg transition-all duration-200 border-blue-200 bg-blue-50">
-            <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-blue-700 text-sm font-medium uppercase tracking-wide">
-                <Wallet size={16} /> Budget Remaining
+            <CardHeader className="pb-2 sm:pb-3">
+              <CardTitle className="flex items-center gap-1 sm:gap-2 text-blue-700 text-xs sm:text-sm font-medium uppercase tracking-wide">
+                <Wallet size={14} className="sm:w-4 sm:h-4" /> Budget Remaining
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold text-blue-800">{formatCurrency(balances.budgetRemaining)}</p>
+            <CardContent className="pt-0">
+              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-800 break-all">
+                {formatCurrency(balances.budgetRemaining)}
+              </p>
             </CardContent>
           </Card>
         </motion.div>
       </div>
 
       {/* Charts Section */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5 }}
         >
           <Card className="hover:shadow-lg transition-shadow duration-200">
-            <CardHeader>
-              <CardTitle className="text-gray-800 text-xl">Spending by Category</CardTitle>
+            <CardHeader className="pb-3 sm:pb-4">
+              <CardTitle className="text-gray-800 text-lg sm:text-xl">Spending by Category</CardTitle>
             </CardHeader>
-            <CardContent className="h-80">
+            <CardContent className="h-64 sm:h-72 lg:h-80 px-2 sm:px-6">
               {spendingByCategory.length > 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -223,9 +231,9 @@ export default function Dashboard() {
                       nameKey="name"
                       cx="50%"
                       cy="50%"
-                      outerRadius={90}
-                      innerRadius={55}
-                      paddingAngle={3}
+                      outerRadius="65%"
+                      innerRadius="35%"
+                      paddingAngle={2}
                       label={({ name, percent }) => `${name}: ${((percent ?? 0) * 100).toFixed(0)}%`}
                       labelLine={false}
                     >
@@ -236,16 +244,17 @@ export default function Dashboard() {
                     <Tooltip content={<CustomTooltip />} />
                     <Legend 
                       wrapperStyle={{
-                        paddingTop: '20px',
-                        fontSize: '13px',
+                        paddingTop: '10px',
+                        fontSize: '11px',
                         color: '#374151'
                       }}
+                      className="text-xs sm:text-sm"
                     />
                   </PieChart>
                 </ResponsiveContainer>
               ) : (
                 <div className="flex items-center justify-center h-full text-gray-500">
-                  <p>No spending data available</p>
+                  <p className="text-sm sm:text-base">No spending data available</p>
                 </div>
               )}
             </CardContent>
@@ -258,54 +267,68 @@ export default function Dashboard() {
           transition={{ delay: 0.6 }}
         >
           <Card className="hover:shadow-lg transition-shadow duration-200">
-            <CardHeader>
-              <CardTitle className="text-gray-800 text-xl">Cash Flow Trend</CardTitle>
+            <CardHeader className="pb-3 sm:pb-4">
+              <CardTitle className="text-gray-800 text-lg sm:text-xl">Cash Flow Trend</CardTitle>
             </CardHeader>
-            <CardContent className="h-80">
+            <CardContent className="h-64 sm:h-72 lg:h-80 px-1 sm:px-6">
               {formattedCashflowTrend.length > 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={formattedCashflowTrend} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                  <LineChart 
+                    data={formattedCashflowTrend} 
+                    margin={{ 
+                      top: 5, 
+                      right: 10, 
+                      left: 10, 
+                      bottom: 5 
+                    }}
+                  >
                     <XAxis 
                       dataKey="month" 
-                      tick={{ fill: '#374151', fontSize: 12 }}
+                      tick={{ fill: '#374151', fontSize: 10 }}
+                      className="sm:text-xs"
                       axisLine={{ stroke: '#d1d5db' }}
                       tickLine={{ stroke: '#d1d5db' }}
                     />
                     <YAxis 
-                      tick={{ fill: '#374151', fontSize: 12 }}
+                      tick={{ fill: '#374151', fontSize: 10 }}
+                      className="sm:text-xs"
                       axisLine={{ stroke: '#d1d5db' }}
                       tickLine={{ stroke: '#d1d5db' }}
-                      tickFormatter={(value) => `$${value}`}
+                      tickFormatter={(value) => `$${value > 1000 ? `${(value/1000).toFixed(0)}k` : value}`}
+                      width={40}
                     />
                     <Tooltip content={<CustomTooltip />} />
                     <Legend 
                       wrapperStyle={{
-                        paddingTop: '10px',
-                        fontSize: '13px',
+                        paddingTop: '8px',
+                        fontSize: '11px',
                         color: '#374151'
                       }}
+                      className="text-xs sm:text-sm"
                     />
                     <Line 
                       type="monotone" 
                       dataKey="income" 
                       stroke="#10b981" 
-                      strokeWidth={3} 
-                      dot={{ fill: '#10b981', strokeWidth: 2, r: 5 }} 
-                      activeDot={{ r: 7, fill: '#059669' }}
+                      strokeWidth={2}
+                      className="sm:stroke-[3] sm:r-5"
+                      dot={{ fill: '#10b981', strokeWidth: 2, r: 3 }}                       
+                      activeDot={{ r: 5, fill: '#059669', className: 'sm:r-7' }}
                     />
                     <Line 
                       type="monotone" 
                       dataKey="expenses" 
                       stroke="#ef4444" 
-                      strokeWidth={3} 
-                      dot={{ fill: '#ef4444', strokeWidth: 2, r: 5 }} 
-                      activeDot={{ r: 7, fill: '#dc2626' }}
+                      strokeWidth={2}
+                      className="sm:stroke-[3] sm:r-5"
+                      dot={{ fill: '#ef4444', strokeWidth: 2, r: 3 }}
+                      activeDot={{ r: 5, fill: '#dc2626', className: 'sm:r-7' }}
                     />
                   </LineChart>
                 </ResponsiveContainer>
               ) : (
                 <div className="flex items-center justify-center h-full text-gray-500">
-                  <p>No cash flow data available</p>
+                  <p className="text-sm sm:text-base">No cash flow data available</p>
                 </div>
               )}
             </CardContent>
@@ -320,32 +343,32 @@ export default function Dashboard() {
         transition={{ delay: 0.7 }}
       >
         <Card className="hover:shadow-lg transition-shadow duration-200">
-          <CardHeader>
-            <CardTitle className="text-gray-800 text-xl">Recent Transactions</CardTitle>
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="text-gray-800 text-lg sm:text-xl">Recent Transactions</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-3 sm:px-6">
             {recentTransactions.length > 0 ? (
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 {recentTransactions.map((tx: { 
                   id: Key | null | undefined; 
                   category: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; 
                   type: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; 
                   amount: number; 
                 }) => (
-                  <div key={tx.id} className="flex justify-between items-center py-3 px-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
-                    <div>
-                      <span className="text-gray-800 font-medium">{tx.category}</span>
-                      <span className="text-gray-500 text-sm ml-2">({tx.type})</span>
+                  <div key={tx.id} className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-3 px-3 sm:px-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors gap-1 sm:gap-0">
+                    <div className="flex flex-col sm:flex-row sm:items-center">
+                      <span className="text-gray-800 font-medium text-sm sm:text-base">{tx.category}</span>
+                      <span className="text-gray-500 text-xs sm:text-sm sm:ml-2">({tx.type})</span>
                     </div>
-                    <span className={`font-semibold ${tx.amount < 0 ? "text-red-600" : "text-green-600"}`}>
+                    <span className={`font-semibold text-sm sm:text-base ${tx.amount < 0 ? "text-red-600" : "text-green-600"} self-start sm:self-auto`}>
                       {formatCurrency(tx.amount)}
                     </span>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-8 text-gray-500">
-                <p>No recent transactions available</p>
+              <div className="text-center py-6 sm:py-8 text-gray-500">
+                <p className="text-sm sm:text-base">No recent transactions available</p>
               </div>
             )}
           </CardContent>
